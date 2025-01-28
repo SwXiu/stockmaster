@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ClientConfig(AppConfig):
+class AdminConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'client'
+    name = 'adminUser'
