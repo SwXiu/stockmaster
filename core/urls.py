@@ -5,5 +5,4 @@ from .views import HomePage
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePage.as_view(), name="home"),
-    path('login/', include('login.urls'), name="login")
 ]
