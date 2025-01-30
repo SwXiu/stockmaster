@@ -1,5 +1,5 @@
 (() => {
-    'use strict'
+    'use strict';
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     const forms = document.querySelectorAll('.needs-validation');
@@ -17,16 +17,15 @@
     });
 })();
 
-const passwordField = document.getElementById('passwordValidation');
-const confirmPasswordField = document.getElementById('passwordConfirmValidation');
+// Validación de contraseñas
+const passwordField = document.getElementById('id_password1');
+const confirmPasswordField = document.getElementById('id_password2');
 
 passwordField.addEventListener('input', validatePasswords);
 confirmPasswordField.addEventListener('input', validatePasswords);
 
 function validatePasswords() {
     if (passwordField.value === confirmPasswordField.value) {
-        
-        
         confirmPasswordField.setCustomValidity('');
         confirmPasswordField.classList.remove('is-invalid');
         confirmPasswordField.classList.add('is-valid');
@@ -36,3 +35,4 @@ function validatePasswords() {
         confirmPasswordField.classList.add('is-invalid');
     }
 }
+

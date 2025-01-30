@@ -10,11 +10,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    {% include 'navbar.html' %}
+
     {% block content %}
-    <div class="container">
-        <a href="{% url 'user:signup' %}" type="button" class="btn btn-primary">SIGN UP</a>
-        <a href="{% url 'user:login' %}" type="button" class="btn btn-primary">LOGIN</a>
-    </div>
+    
     {% endblock %}
     <script src="{% static 'js/script.js' %}"></script>
 </body>

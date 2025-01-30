@@ -1,59 +1,54 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.views import LoginView
-from django.views.generic import View
-from django.shortcuts import redirect
-from django.contrib.auth.models import User
-from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import get_user_model
+from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
 
-def signupView(request):
-    if request.method == "POST":
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        telephone = request.POST.get('telephone')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        password_confirm = request.POST.get('password_confirm')
+User = get_user_model()
 
-        # Validar que las contraseñas coincidan
-        if password != password_confirm:
-            messages.error(request, "Las contraseñas no coinciden.")
-            return render(request, 'signup.html')
 
-        # Verificar que el usuario no exista
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "El nombre de usuario ya está en uso.")
-            return render(request, 'signup.html')
-
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "El correo electrónico ya está registrado.")
-            return render(request, 'signup.html')
-
-        # Crear usuario
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            first_name=first_name,
-            last_name=last_name
-        )
-
-        # Guardar otros datos (Django User por defecto no tiene teléfono)
-        user.save()
-
-        return redirect('home')  # Redirigir al usuario a la página principal
-
-    return render(request, 'signup.html')
-
-class LoginView(LoginView):
-    template_name = 'login.html'
-    redirect_authenticated_user = True 
-
-class UserView(View):
-    def get(self, request, *args, **kwargs):
-        if request.user.profile.role == 'client':
-            return redirect('clientInterface')
-        elif request.user.profile.role == 'admin':
-            return redirect('adminInterface')
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Guarda el usuario
+            login(request, user)  # Inicia sesión con el nuevo usuario
+            return redirect('user:user')  # Redirige al usuario a la página de tareas o a donde quieras
         else:
-            return redirect('home')
+            return render(request, 'signup.html', {'form': form})  # Devuelve el formulario con errores
+    else:
+        form = CustomUserCreationForm()
+        return render(request, 'signup.html', {'form': form})
+
+
+
+def signin(request):
+    if request.method == 'GET':
+
+        return render(request, 'signin.html', {"form": AuthenticationForm()})
+
+    else:
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+
+            user = form.get_user()
+            login(request, user)
+            return redirect('user:user')
+
+        return render(request, 'signin.html', {"form": form, "error": "Username or password is incorrect."})
+
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('home')
+
+
+def userView(request):
+    if request.user.is_superuser:
+        return redirect('adminInterface')
+
+    return redirect('clientInterface')

@@ -20,4 +20,4 @@ class ClientInterface(View):
         context={
 
         }
-        return render(request, 'cliente.html')
+        return render(request, 'client.html')
