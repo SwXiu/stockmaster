@@ -1,31 +1,54 @@
-from django.views.generic.edit import FormView
-from django.contrib.auth.views import LoginView
-from django.views.generic import View
-from django.urls import reverse_lazy
-from django.shortcuts import redirect
-from .forms import RegisterForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import get_user_model
+from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
 
-class SignupView(FormView):
-    template_name = 'signUp.html'
-    form_class = RegisterForm
-    success_url = reverse_lazy('dashboard')
+User = get_user_model()
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        return super().form_invalid(form)
 
-class LoginView(LoginView):
-    template_name = 'login.html'
-    redirect_authenticated_user = True 
-
-class UserView(View):
-    def get(self, request, *args, **kwargs):
-        if request.user.profile.role == 'client':
-            return redirect('clientInterface')
-        elif request.user.profile.role == 'admin':
-            return redirect('adminInterface')
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Guarda el usuario
+            login(request, user)  # Inicia sesión con el nuevo usuario
+            return redirect('user:user')  # Redirige al usuario a la página de tareas o a donde quieras
         else:
-            return redirect('home')
+            return render(request, 'signup.html', {'form': form})  # Devuelve el formulario con errores
+    else:
+        form = CustomUserCreationForm()
+        return render(request, 'signup.html', {'form': form})
+
+
+
+def signin(request):
+    if request.method == 'GET':
+
+        return render(request, 'signin.html', {"form": AuthenticationForm()})
+
+    else:
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+
+            user = form.get_user()
+            login(request, user)
+            return redirect('user:user')
+
+        return render(request, 'signin.html', {"form": form, "error": "Username or password is incorrect."})
+
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('home')
+
+
+def userView(request):
+    if request.user.is_superuser:
+        return redirect('adminInterface')
+
+    return redirect('clientInterface')

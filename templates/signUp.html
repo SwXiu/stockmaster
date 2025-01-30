@@ -1,117 +1,99 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div id="containerSignUp" class="container">
-    <form class="row g-3 needs-validation" method="POST" novalidate>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Registrarse</h2>
+    
+    <form method="POST" class="needs-validation" novalidate>
         {% csrf_token %}
-
-        <!-- First Name -->
-        <div class="col-md-6">
-            <label for="{{ form.first_name.id_for_label }}" class="form-label">First name</label>
-            <input type="text" name="first_name" class="form-control" id="{{ form.first_name.id_for_label }}" required>
-            <div class="valid-feedback">
-                Perfecto!
-            </div>
-            <div class="invalid-feedback">
-                Por favor escribe tu nombre.
-            </div>
-        </div>
-
-        <!-- Last Name -->
-        <div class="col-md-6">
-            <label for="{{ form.last_name.id_for_label }}" class="form-label">Last name</label>
-            <input type="text" name="last_name" class="form-control" id="{{ form.last_name.id_for_label }}" required>
-            <div class="valid-feedback">
-                Perfecto!
-            </div>
-            <div class="invalid-feedback">
-                Por favor escribe tu apellido.
-            </div>
-        </div>
-
-        <!-- Email -->
-        <div class="col-md-12">
-            <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" id="{{ form.email.id_for_label }}" required>
-            <div class="valid-feedback">
-                Perfecto!
-            </div>
-            <div class="invalid-feedback">
-                Por favor escribe un correo válido.
-            </div>
-        </div>
-
-        <!-- Phone -->
-        <div class="col-md-12">
-            <label for="{{ form.telephone.id_for_label }}" class="form-label">Telefono</label>
-            <input type="tel" name="telephone" class="form-control" id="{{ form.telephone.id_for_label }}" required>
-            <div class="valid-feedback">
-                Perfecto!
-            </div>
-            <div class="invalid-feedback">
-                Por favor escribe un número de teléfono válido.
-            </div>
-        </div>
-
-        <!-- Username -->
-        <div class="col-md-12">
-            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
-            <div class="input-group has-validation">
-                <span class="input-group-text" id="inputGroupPrepend">@</span>
-                <input type="text" name="username" class="form-control" id="{{ form.username.id_for_label }}" required>
-                <div class="valid-feedback">
-                    Perfecto!
+        
+        <!-- Nombre de usuario -->
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Nombre de Usuario</label>
+            <input type="text" name="username" id="id_username" class="form-control" placeholder="Ingrese su nombre de usuario" required>
+            {% if form.username.errors %}
+                <div class="alert alert-danger mt-2">
+                    {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
                 </div>
-                <div class="invalid-feedback">
-                    Por favor escribe tu nombre de usuario.
+            {% endif %}
+        </div>
+        
+        <!-- Correo electrónico -->
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Correo Electrónico</label>
+            <input type="email" name="email" id="id_email" class="form-control" placeholder="Ingrese su correo electrónico" required>
+            {% if form.email.errors %}
+                <div class="alert alert-danger mt-2">
+                    {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
                 </div>
-            </div>
+            {% endif %}
         </div>
 
-        <!-- Password -->
-        <div class="col-md-6">
-            <label for="{{ form.password.id_for_label }}" class="form-label">Contraseña</label>
-            <input type="password" name="password" class="form-control" id="{{ form.password.id_for_label }}" minlength="8" required>
-            <div class="valid-feedback">
-                Perfecto!
-            </div>
-            <div class="invalid-feedback">
-                La contraseña debe tener al menos 8 caracteres.
-            </div>
+        <!-- Teléfono -->
+        <div class="mb-3">
+            <label for="id_telephone" class="form-label">Teléfono</label>
+            <input type="text" name="telephone" id="id_telephone" class="form-control" placeholder="Ingrese su teléfono">
         </div>
 
-        <!-- Confirm Password -->
-        <div class="col-md-6">
-            <label for="{{ form.password_confirm.id_for_label }}" class="form-label">Confirmar Contraseña</label>
-            <input type="password" name="password_confirm" class="form-control" id="{{ form.password_confirm.id_for_label }}" minlength="8" required>
-            <div class="valid-feedback">
-                Perfecto!
-            </div>
-            <div class="invalid-feedback">
-                Las contraseñas no coinciden.
-            </div>
+        <!-- Dirección -->
+        <div class="mb-3">
+            <label for="id_address" class="form-label">Dirección</label>
+            <input type="text" name="address" id="id_address" class="form-control" placeholder="Ingrese su dirección">
         </div>
 
-        <!-- Terms and Conditions -->
-        <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="accept_terms" id="invalidCheck" required>
-                <label class="form-check-label" for="invalidCheck">
-                    Acepto los términos y condiciones
-                </label>
-                <div class="valid-feedback">
-                    Perfecto!
+        <!-- Fecha de nacimiento -->
+        <div class="mb-3">
+            <label for="id_birth_date" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" name="birth_date" id="id_birth_date" class="form-control">
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-3">
+            <label for="id_password1" class="form-label">Contraseña</label>
+            <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Ingrese su contraseña" required>
+            {% if form.password1.errors %}
+                <div class="alert alert-danger mt-2">
+                    {% for error in form.password1.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
                 </div>
-                <div class="invalid-feedback">
-                    Debes aceptar los términos antes de enviar.
-                </div>
-            </div>
+            {% endif %}
         </div>
 
-        <!-- Submit Button -->
-        <div class="col-12">
-            <button class="btn btn-primary" type="submit">Registrar</button>
+        <!-- Confirmar Contraseña -->
+        <div class="mb-3">
+            <label for="id_password2" class="form-label">Confirmar Contraseña</label>
+            <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Confirme su contraseña" required>
+            {% if form.password2.errors %}
+                <div class="alert alert-danger mt-2">
+                    {% for error in form.password2.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+        
+        <!-- Botón de registro -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </div>
+
+        <!-- Mostrar errores generales -->
+        {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </form>
 </div>
 {% endblock %}
