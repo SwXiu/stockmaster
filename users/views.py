@@ -11,13 +11,15 @@ User = get_user_model()
 
 def signup(request):
     if request.method == 'POST':
+        print(request.POST)
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Guarda el usuario
-            login(request, user)  # Inicia sesión con el nuevo usuario
-            return redirect('user:user')  # Redirige al usuario a la página de tareas o a donde quieras
+            user = form.save()
+            login(request, user)
+            return redirect('user:user')
         else:
-            return render(request, 'signup.html', {'form': form})  # Devuelve el formulario con errores
+            return render(request, 'signup.html', {'form': form})
+            
     else:
         form = CustomUserCreationForm()
         return render(request, 'signup.html', {'form': form})
@@ -49,6 +51,6 @@ def signout(request):
 
 def userView(request):
     if request.user.is_superuser:
-        return redirect('adminInterface')
+        return redirect('adminV:adminInterface')
 
-    return redirect('clientInterface')
+    return redirect('clientV:clientInterface')
