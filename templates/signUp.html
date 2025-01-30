@@ -2,115 +2,92 @@
 
 {% block title %}SIGN UP{% endblock %} 
 
+{% load static %}
+{% block title %}SIGNUP{% endblock %}
+
 {% block content %}
 
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Registrarse</h2>
+<div class="container d-flex justify-content-center align-items-center vh-100 ">
+    <div class="signup-card  ">
+        <h2 class="text-center mb-4 fw-bold">Regístrate</h2>
 
-  <form method="POST" class="needs-validation" novalidate id="signupForm">
-    {% csrf_token %}
-
-    <!-- Nombre de usuario -->
-    <div class="mb-3">
-      <label for="id_username" class="form-label">Nombre de Usuario</label>
-      <input
-        type="text"
-        name="username"
-        id="id_username"
-        class="form-control"
-        placeholder="Ingrese su nombre de usuario"
-        required
-      />
-      <div class="invalid-feedback" id="usernameError"></div>
+        {% comment %} <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %} {% endcomment %}
+            
+            <!-- Nombre de usuario -->
+            <div class="mb-3">
+                <input type="text" name="name" id="id_name" class="form-control" placeholder="Nombre" required>
+                {% comment %} {% if form.username.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %} {% endcomment %}
+            </div>
+            
+            <!-- Correo electrónico -->
+            <div class="mb-3">
+                <input type="email" name="email" id="id_email" class="form-control" placeholder="correo electrónico" required>
+                {% comment %} {% if form.email.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %} {% endcomment %}
+            </div>
+    
+            <!-- Teléfono -->
+            <div class="mb-3">
+                <input type="text" name="telephone" id="id_telephone" class="form-control" placeholder="Número teléfono">
+            </div>
+    
+            <!-- Contraseña -->
+            <div class="mb-3">
+                <input type="password" name="password1" id="id_password1" class="form-control" placeholder="contraseña" required>
+                {% comment %} {% if form.password1.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.password1.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %} {% endcomment %}
+            </div>
+    
+            <!-- Confirmar Contraseña -->
+            <div class="mb-3">
+                <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Confirma contraseña" required>
+                {% comment %} {% if form.password2.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {% for error in form.password2.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %} {% endcomment %}
+            </div>
+            
+            <!-- Botón de registro -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+            </div>
+    
+            <!-- Mostrar errores generales -->
+            {% comment %} {% if form.errors %}
+                <div class="alert alert-danger mt-3">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %} {% endcomment %}
+        {% comment %} </form> {% endcomment %}
     </div>
-
-    <!-- Correo electrónico -->
-    <div class="mb-3">
-      <label for="id_email" class="form-label">Correo Electrónico</label>
-      <input
-        type="email"
-        name="email"
-        id="id_email"
-        class="form-control"
-        placeholder="Ingrese su correo electrónico"
-        required
-      />
-      <div class="invalid-feedback" id="emailError"></div>
-    </div>
-
-    <!-- Teléfono -->
-    <div class="mb-3">
-      <label for="id_telephone" class="form-label">Teléfono</label>
-      <input
-        type="text"
-        name="telephone"
-        id="id_telephone"
-        class="form-control"
-        placeholder="Ingrese su teléfono"
-        required
-      />
-      <div class="invalid-feedback" id="telephoneError"></div>
-    </div>
-
-    <!-- Dirección -->
-    <div class="mb-3">
-      <label for="id_address" class="form-label">Dirección</label>
-      <input
-        type="text"
-        name="address"
-        id="id_address"
-        class="form-control"
-        placeholder="Ingrese su dirección"
-        required
-      />
-      <div class="invalid-feedback" id="addressError"></div>
-    </div>
-
-    <!-- Fecha de nacimiento -->
-    <div class="mb-3">
-      <label for="id_birth_date" class="form-label">Fecha de Nacimiento</label>
-      <input
-        type="date"
-        name="birth_date"
-        id="id_birth_date"
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback" id="birthDateError"></div>
-    </div>
-
-    <!-- Contraseña -->
-    <div class="mb-3">
-      <label for="id_password1" class="form-label">Contraseña</label>
-      <input
-        type="password"
-        name="password1"
-        id="id_password1"
-        class="form-control"
-        placeholder="Ingrese su contraseña"
-        required
-      />
-      <div class="invalid-feedback" id="password1Error"></div>
-    </div>
-
-    <!-- Confirmar Contraseña -->
-    <div class="mb-3">
-      <label for="id_password2" class="form-label">Confirmar Contraseña</label>
-      <input
-        type="password"
-        name="password2"
-        id="id_password2"
-        class="form-control"
-        placeholder="Confirme su contraseña"
-        required
-      />
-      <div class="invalid-feedback" id="password2Error"></div>
-    </div>
-
-    <!-- Botón de registro -->
-    <div class="d-grid gap-2">
-      <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-    </div>
-  </form>
+>>>>>>> zhi
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 {% endblock %}
