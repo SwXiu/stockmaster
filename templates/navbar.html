@@ -1,40 +1,34 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">StockMaster</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a href="/" class="nav-link">Home</a>
-          </li>
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a href="{% url 'user:user' %}" class="nav-link"
-              >profile</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a href="{% url 'user:signin' %}" class="nav-link">Login</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'user:signup' %}" class="nav-link">Register</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
+  <div class="container">
+    <a href="/">
+      <img src="{% static 'img/logoLetras.png' %}" alt="Logo" width="182" height="45">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a href="{% url 'user:user' %}" class="nav-link">profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="{% url 'user:signin' %}" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'user:signup' %}" class="nav-link">Register</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
