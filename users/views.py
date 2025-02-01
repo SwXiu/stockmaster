@@ -18,6 +18,7 @@ def signup(request):
             login(request, user)
             return redirect('user:user')
         else:
+            print("No es valido")
             return render(request, 'signup.html', {'form': form})
             
     else:
