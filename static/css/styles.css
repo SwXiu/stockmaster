@@ -3,6 +3,23 @@ body {
     background-color: #3E608C;
 }
 
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: none;
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none;
+}
+
 /* css de navbar */
 
 #navbar {
@@ -52,29 +69,30 @@ body {
 .signup-card {
     padding: 30px;
     border-radius: 8px;
-    width: 350px;
+    width: 400px;
     text-align: center;
 }
 
 .registration-form {
     background-color: #ffffff;
-    padding: 20px;
+    padding: 0.5%;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .input-container {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 1%;
+    transition: border-color 0.3s ease, background-color 0.3s ease; 
 }
 
 .input-container input {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     border: none;
     border-radius: 4px;
     background-color: #ffffff;
-    color: #fff;
+    color: #0a0a0a;
     font-size: 16px;
     outline: none;
 }
@@ -90,14 +108,54 @@ body {
     pointer-events: none;
 }
 
+
+input:focus {
+    border-color: #ced4da !important;
+    box-shadow: none !important;
+}
+
+
 .input-container input:focus+label,
 .input-container input:not(:placeholder-shown)+label {
-    top: -3px;
+    top: -4px;
     font-size: 12px;
     color: #888;
     background-color: #fff;
     margin: 1%;
     padding: 0% 5% 0% 5%;
+}
+
+.input-container:has(input:focus) {
+    border-color: #ff9900;  /* Cambia el borde del contenedor */
+}
+
+#suggestions {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 10;
+    width: 93%;
+    background-color: white;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+#id_address {
+    position: relative;
+}
+
+.bi-eye, .bi-eye-slash {
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -117,6 +175,11 @@ body {
 .btn-primary:active {
     background-color: #ca5b00 !important;
     transform: scale(0.95);
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    background-color: #ff933b !important;
 }
 
 /* css de login */

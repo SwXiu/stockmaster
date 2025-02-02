@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class AdminInterface(LoginRequiredMixin, View):
-    login_url = 'user:signin'
+    login_url = 'user:login'
     redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
