@@ -27,37 +27,41 @@
 
         <!-- Teléfono -->
         <div class="form-control mb-3 input-container">
-          <input type="text" name="telephone" id="id_telephone" class="form-control" placeholder="" required/>
+          <input type="tel" name="telephone" id="id_telephone" class="form-control" placeholder="" required />
           <label for="id_telephone">Número de teléfono</label>
         </div>
 
-        <!-- Ubicación -->
+        <!-- Ubicación (Autocompletado con provincias de España) -->
         <div class="form-control mb-3 input-container">
-          <input type="text" name="address" id="id_address" class="form-control" placeholder="" required />
+          <input type="text" name="address" id="id_address" class="form-control" required />
           <label for="id_address">Ubicación</label>
+          <span class="position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-chevron-down"></i></span>
+          <div id="suggestions" class="suggestions-box"></div>
         </div>
 
         <!-- Fecha de nacimiento -->
         <div class="form-control mb-3 input-container">
-          <input type="text" name="birth_date" id="id_birth_date" class="form-control" required />
-          <label for="id_birth_date">Fecha de nacimiento</label>
+          <input type="text" name="birth_date" id="id_birth_date" class="form-control" placeholder="" required />
+          <label for="id_birth_date">Fecha de nacimiento (DD-MM-YY)</label>
         </div>
 
         <!-- Contraseña -->
-        <div class="form-control mb-3 input-container">
+        <div class="form-control mb-3 input-container position-relative">
           <input type="password" name="password1" id="id_password1" class="form-control" placeholder="" required />
           <label for="id_password1">Contraseña</label>
+          <span class="position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-eye-slash" id="toggle-password1"></i></span>
         </div>
 
         <!-- Confirmar Contraseña -->
-        <div class="form-control mb-3 input-container">
+        <div class="form-control mb-3 input-container position-relative">
           <input type="password" name="password2" id="id_password2" class="form-control" placeholder="" required />
           <label for="id_password2">Confirma contraseña</label>
+          <span class="position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-eye-slash" id="toggle-password2"></i></span>
         </div>
 
         <!-- Botón de registro -->
         <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-primary">Registrar</button>
+          <button type="submit" class="btn btn-primary" disabled>Registrar</button>
         </div>
       </div>
     </form>
