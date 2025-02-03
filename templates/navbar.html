@@ -8,20 +8,22 @@
       <ul class="navbar-nav mb-auto ms-auto">
         <li class="nav-item dropdown">
           {% if user.is_authenticated %}
-            <a class="nav-link" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0%;"><i class="bi bi-person-circle" style="font-size: 2rem;"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end text-center">
-              <span><i class="bi bi-person-circle" style="font-size: 2rem;"></i></span>
-              <li>
-                <span>{{ user.username }}</span>
+            <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0%;"><i class="bi bi-person-circle" style="font-size: 2rem;"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end text-center" style="padding: 0%; margin: 0%">
+              <li style="padding-top: 15px"> 
+                <span style="color: white;"><i class="bi bi-person-circle" style="font-size: 2rem;"></i></span>
+              </li>
+              <li style="padding-bottom: 15px">
+                <span style="color: white;">{{ user.username }}</span>
               </li>
               <li>
-                <a class="dropdown-item" href="">VER PERFIL</a>
+                <a style="padding: 10px" class="dropdown-item" href="">VER PERFIL</a>
               </li>
               <li>
-                <hr class="dropdown-divider" />
+                <hr style="margin: 0%" class="dropdown-divider" />
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'user:logout' %}">CERRAR SESIÓN</a>
+                <a style="padding: 13px" class="dropdown-item" href="{% url 'user:logout' %}">CERRAR SESIÓN</a>
               </li>
             </ul>
           {% else %}

@@ -1,69 +1,130 @@
-{% extends 'index.html' %}
-{% load static %}
-
-{% block title %}
-  SIGN UP
-{% endblock %}
-
+{% extends 'index.html' %} 
+{% load static %} 
+{% block title %} SIGN UP {%endblock %} 
 {% block content %}
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <form method="POST" class="registration-form" novalidate>
-      {% csrf_token %}
 
-      <div class="signup-card">
-        <h2 class="text-center mb-4 fw-bold">Regístrate</h2>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <form method="POST" class="registration-form" novalidate>
+    {% csrf_token %}
 
-        <!-- Nombre de usuario -->
-        <div class="form-control mb-3 input-container">
-          <input type="text" name="username" id="id_username" class="form-control" placeholder="" required />
-          <label for="id_username">Nombre</label>
-        </div>
+    <div class="signup-card">
+      <h2 class="text-center mb-4 fw-bold">Regístrate</h2>
 
-        <!-- Correo electrónico -->
-        <div class="form-control mb-3 input-container">
-          <input type="email" name="email" id="id_email" class="form-control" placeholder="" required />
-          <label for="id_email">Correo electrónico</label>
-        </div>
-
-        <!-- Teléfono -->
-        <div class="form-control mb-3 input-container">
-          <input type="tel" name="telephone" id="id_telephone" class="form-control" placeholder="" required />
-          <label for="id_telephone">Número de teléfono</label>
-        </div>
-
-        <!-- Ubicación (Autocompletado con provincias de España) -->
-        <div class="form-control mb-3 input-container">
-          <input type="text" name="address" id="id_address" class="form-control" required />
-          <label for="id_address">Ubicación</label>
-          <span class="position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-chevron-down"></i></span>
-          <div id="suggestions" class="suggestions-box"></div>
-        </div>
-
-        <!-- Fecha de nacimiento -->
-        <div class="form-control mb-3 input-container">
-          <input type="text" name="birth_date" id="id_birth_date" class="form-control" placeholder="" required />
-          <label for="id_birth_date">Fecha de nacimiento (DD-MM-YY)</label>
-        </div>
-
-        <!-- Contraseña -->
-        <div class="form-control mb-3 input-container position-relative">
-          <input type="password" name="password1" id="id_password1" class="form-control" placeholder="" required />
-          <label for="id_password1">Contraseña</label>
-          <span class="position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-eye-slash" id="toggle-password1"></i></span>
-        </div>
-
-        <!-- Confirmar Contraseña -->
-        <div class="form-control mb-3 input-container position-relative">
-          <input type="password" name="password2" id="id_password2" class="form-control" placeholder="" required />
-          <label for="id_password2">Confirma contraseña</label>
-          <span class="position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-eye-slash" id="toggle-password2"></i></span>
-        </div>
-
-        <!-- Botón de registro -->
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-primary" disabled>Registrar</button>
-        </div>
+      <!-- Nombre de usuario -->
+      <div class="form-control mb-3 input-container">
+        <input
+          type="text"
+          name="username"
+          id="id_username"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <label for="id_username">Nombre</label>
       </div>
-    </form>
-  </div>
+
+      <!-- Correo electrónico -->
+      <div class="form-control mb-3 input-container">
+        <input
+          type="email"
+          name="email"
+          id="id_email"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <label for="id_email">Correo electrónico</label>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="form-control mb-3 input-container">
+        <input
+          type="tel"
+          name="telephone"
+          id="id_telephone"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <label for="id_telephone">Número de teléfono</label>
+      </div>
+
+      <!-- Ubicación (Autocompletado con provincias de España) -->
+      <div class="form-control mb-3 input-container">
+        <input
+          type="text"
+          name="address"
+          id="id_address"
+          class="form-control"
+          required
+        />
+        <label for="id_address">Ubicación</label>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+          ><i class="bi bi-chevron-down"></i
+        ></span>
+        <div id="suggestions" class="suggestions-box"></div>
+      </div>
+
+      <!-- Fecha de nacimiento -->
+      <div class="form-control mb-3 input-container">
+        <input
+          type="text"
+          name="birth_date"
+          id="id_birth_date"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <label for="id_birth_date">Fecha de nacimiento (DD-MM-YY)</label>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-control mb-3 input-container position-relative">
+        <input
+          type="password"
+          name="password1"
+          id="id_password1"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <label for="id_password1">Contraseña</label>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+          ><i class="bi bi-eye-slash" id="toggle-password1"></i
+        ></span>
+      </div>
+
+      <!-- Confirmar Contraseña -->
+      <div class="form-control mb-3 input-container position-relative">
+        <input
+          type="password"
+          name="password2"
+          id="id_password2"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <label for="id_password2">Confirma contraseña</label>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+          ><i class="bi bi-eye-slash" id="toggle-password2"></i
+        ></span>
+      </div>
+
+      <!-- Botón de registro -->
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary" id="botonRegistro" disabled>
+          Registrar
+        </button>
+      </div>
+
+      <p style="color: #585858; margin-top: 30px">
+        ¿Ya tienes cuenta?
+        
+      </p>
+      <a class="linkA" href="{% url 'user:login' %}">Iniciar sesión</a>
+    </div>
+  </form>
+</div>
+<div id="notification1" class="notification hidden"></div>
+<script src="{% static 'js/scriptRegistro.js' %}"></script>
 {% endblock %}

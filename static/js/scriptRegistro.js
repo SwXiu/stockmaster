@@ -1,5 +1,5 @@
 function showNotification(message) {
-    const notification = document.getElementById('notification');
+    const notification = document.getElementById('notification1');
     notification.textContent = message;
     notification.classList.remove('hidden');
     notification.style.display = 'block';
@@ -8,7 +8,7 @@ function showNotification(message) {
     setTimeout(() => {
         notification.classList.add('hidden');
         notification.style.display = 'none';
-    }, 3000);
+    }, 2000);
 }
 
 flatpickr("#id_birth_date", {
@@ -18,6 +18,8 @@ flatpickr("#id_birth_date", {
     locale: "es",
     maxDate: "today",
 });
+
+
 
 const provinces = [
     "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres",
@@ -100,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const birthDate = document.getElementById('id_birth_date');
     const password1 = document.getElementById('id_password1');
     const password2 = document.getElementById('id_password2');
-    const submitBtn = document.querySelector('.btn-primary');
+    const submitBtn = document.getElementById('botonRegistro');
 
     // Función para validar email con una expresión regular básica
     function validateEmail(emailValue) {
@@ -229,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
-
 
 function togglePasswordVisibility(inputId, iconId) {
     const passwordInput = document.getElementById(inputId);

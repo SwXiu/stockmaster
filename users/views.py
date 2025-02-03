@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+from users.backend import EmailBackend
 
 CustomUser = get_user_model()
 
@@ -13,11 +13,13 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Guarda el usuario de forma correcta
-            login(request, user)  # Inicia sesión con el nuevo usuario
-            return redirect('user:user')  # Redirige a una página de éxito o perfil
+            user = form.save()  # Guarda el usuario en la base de datos
+
+            login(request, user, backend='users.backend.EmailBackend')  # Autentica al usuario con el backend
+
+            return redirect('user:user')  # Redirige después de iniciar sesión
         else:
-            print(form.errors)  # Puedes revisar los errores del formulario aquí
+            print(form.errors)  # Imprime errores para depuración
             return render(request, 'signUp.html', {'form': form})
     else:
         form = CustomUserCreationForm()
@@ -25,20 +27,22 @@ def signup(request):
 
 
 def signin(request):
-    if request.method == 'GET':
+    if request.method == "POST":
+        email = request.POST.get("email1")
+        password = request.POST.get("password")
 
-        return render(request, 'signin.html', {"form": AuthenticationForm()})
+        # Autenticar al usuario
+        user = authenticate(request, username=email, password=password)
 
-    else:
-        form = AuthenticationForm(data=request.POST)
-
-        if form.is_valid():
-
-            user = form.get_user()
+        if user is not None:
             login(request, user)
-            return redirect('user:user')
+            # Si la autenticación es exitosa, devuelve un éxito con una URL para redirigir
+            return JsonResponse({"success": True, "redirectUrl": "/user"}, status=200)
+        else:
+            # Si la autenticación falla, retorna un error
+            return JsonResponse({"error": "Correo o contraseña incorrectos"}, status=400)
 
-        return render(request, 'signin.html', {"form": form, "error": "Username or password is incorrect."})
+    return render(request, "signin.html")
 
 
 @login_required
@@ -68,6 +72,6 @@ def check_field_exists(request):
         else:
             return JsonResponse({'error': 'Invalid field type'}, status=400)
 
-        return JsonResponse({'exists': exists})  # ✅ ¡CONFIRMA QUE SE ENVÍA!
+        return JsonResponse({'exists': exists})
     
     return JsonResponse({'error': 'Missing parameters'}, status=400)

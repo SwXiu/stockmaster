@@ -1,101 +1,70 @@
-{% extends "index.html" %} 
-
-{% load static %}
-
-{% block title %}LOGIN{% endblock %}
-
+{% extends 'index.html' %} 
+{% load static %} 
+{% block title %} LOGIN {% endblock%}
 {% block content %}
 
-
-<section class="vh-100" style="background-color: white">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-xl-10">
-        <div
-          class="card"
-          style="border-radius: 1rem; border: 8px solid #ff6219"
-        >
-          <div class="row g-0">
-            <div class="col-md-6 col-lg-5 d-none d-md-block">
-              <img
-                src="{% static 'img/log.webp' %}"
-                alt="login form"
-                class="img-fluid"
-                style="
-                  border-radius: 0.5rem 0 0 0.5rem;
-                  height: 100%;
-                  object-fit: cover;
-                "
-              />
-            </div>
-            <div
-              class="col-md-6 col-lg-7 d-flex align-items-center"
-              style="background-color: black; border-radius: 0 0.5rem 0.5rem 0"
-            >
-              <div class="card-body p-4 p-lg-5 text-white">
-                <form method="POST" class="needs-validation" novalidate>
-                  {% csrf_token %}
-
-                  <div class="mb-3">
-                    <label for="id_username" class="form-label"
-                      >Nombre de Usuario</label
-                    >
-                    <input
-                      type="text"
-                      name="username"
-                      id="id_username"
-                      class="form-control"
-                      placeholder="Ingrese su nombre de usuario"
-                      required
-                    />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="id_password" class="form-label"
-                      >Contraseña</label
-                    >
-                    <input
-                      type="password"
-                      name="password"
-                      id="id_password"
-                      class="form-control"
-                      placeholder="Ingrese su contraseña"
-                      required
-                    />
-                  </div>
-
-                  <!-- Mostrar error si existe -->
-                  {% if error %}
-                  <div class="alert alert-danger">{{ error }}</div>
-                  {% endif %}
-
-
-                  <div class="pt-1 mb-4">
-                    <button
-                      data-mdb-button-init
-                      data-mdb-ripple-init
-                      class="btn btn-lg btn-block"
-                      style="background-color: #ff6219; color: white"
-                      type="submit"
-                    >
-                      Login
-                    </button>
-                  </div>
-
-                  <a class="small" href="#!" style="color: #ff6219"
-                    >Forgot password?</a
-                  >
-                  <p class="mb-5 pb-lg-2" style="color: #ff6219">
-                    Don't have an account?
-                    <a href="{% url 'user:signup' %}" style="color: #ff6219">Register here</a>
-                  </p>
-                </form>
-              </div>
-            </div>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="d-flex justify-content-center align-items-center" style=" flex-flow: row wrap;">
+    <form method="POST" class="registration-form" novalidate>
+      {% csrf_token %}
+      
+      <div class="login-card">
+        <h2 class="text-center mb-4 fw-bold">Iniciar sesión</h2>
+  
+        <!-- Correo electrónico -->
+        <div class="form-control mb-3 input-container">
+          <input
+            type="email"
+            name="email1"
+            id="id_email1"
+            class="form-control"
+            placeholder=""
+            required
+          />
+          <label for="id_email1">Correo electrónico</label>
+        </div>
+  
+        <!-- Contenedor de la contraseña -->
+        <div class="d-flex flex-column">
+          <div class="form-control mb-2 input-container position-relative">
+            <input
+              type="password"
+              name="password"
+              id="id_password"
+              class="form-control"
+              placeholder=""
+              required
+            />
+            <label for="id_password">Contraseña</label>
+            <span class="position-absolute top-50 end-0 translate-middle-y me-3">
+              <i class="bi bi-eye-slash" id="toggle-password" style="cursor: pointer;"></i>
+            </span>
+          </div>
+  
+          <!-- Forgot password alineado a la derecha -->
+          <div class="d-flex justify-content-end mt-1">
+            <a class="linkP" href="#!" style="padding-bottom: 20px">¿Has olvidado la contraseña?</a>
           </div>
         </div>
+  
+        <!-- Botón de iniciar sesión -->
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary" id="botonIniciarSesion" disabled>Iniciar sesión</button>
+        </div>
+  
+        <p style="color: #585858; margin-top: 20px">
+          ¿No tienes cuenta?
+          
+        </p>
+        <a class="linkA" href="{% url 'user:signup' %}" >Regístrate aquí</a>
       </div>
-    </div>
+        <!-- Notificación debajo del formulario -->
+      
+    </form>
+    <div id="notification2" class="notification hidden"></div>
   </div>
-</section>
+</div>
+
+<script src="{% static 'js/scriptLogin.js' %}"></script>
+
 {% endblock %}

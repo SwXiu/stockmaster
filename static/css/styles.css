@@ -3,17 +3,27 @@ body {
     background-color: #3E608C;
 }
 
-.notification {
+#notification1 {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background-color: red;
+    background-color: rgb(173, 0, 0);
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
     font-size: 14px;
     display: none;
     opacity: 0.9;
+}
+
+#notification2 {
+    background-color: #cc0000;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 63%;
+    text-align: center;
+    display: none;
 }
 
 .hidden {
@@ -45,20 +55,26 @@ body {
     color: #ff7300;
 }
 
+.nav-link i {
+    color: white;
+}
+
+.nav-link:hover i {
+    color: #ff7300;
+}
+
 .dropdown-menu {
     border-radius: 5px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
     padding: 10px 0;
-    background-color: #333;
+    background-color: #2e3136;
     border: none;
 }
 
 .dropdown-item {
     color: white;
-    padding: 10px 20px;
     transition: background-color 0.3s;
 }
-
 
 .dropdown-item:hover {
     background-color: #ff7300;
@@ -83,7 +99,7 @@ body {
 .input-container {
     position: relative;
     margin-bottom: 1%;
-    transition: border-color 0.3s ease, background-color 0.3s ease; 
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .input-container input {
@@ -126,7 +142,7 @@ input:focus {
 }
 
 .input-container:has(input:focus) {
-    border-color: #ff9900;  /* Cambia el borde del contenedor */
+    border-color: #ff9900;
 }
 
 #suggestions {
@@ -153,9 +169,15 @@ input:focus {
     position: relative;
 }
 
-.bi-eye, .bi-eye-slash {
+.bi-eye {
     font-size: 1.5rem;
     cursor: pointer;
+}
+
+.bi-eye-slash {
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.5;
 }
 
 .btn-primary {
@@ -183,3 +205,29 @@ input:focus {
 }
 
 /* css de login */
+.login-card {
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+}
+
+.linkA {
+    color: #292929;
+    text-decoration: none;
+}
+
+.linkA:hover {
+    color: #ff7300;
+    text-decoration: none;
+}
+
+.linkP {
+    color: #585858;
+    text-decoration: none;
+}
+
+.linkP:hover {
+    color: #ff7300;
+    text-decoration: none;
+}
