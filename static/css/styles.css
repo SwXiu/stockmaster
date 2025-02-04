@@ -1,37 +1,233 @@
-#containerSignUp {
-    margin-top: 5%;
-    padding: 0 0 0 30%;
-    justify-content: center;
+/* css de pagina principal */
+body {
+    background-color: #3E608C;
 }
 
-.signup-card {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+#notification1 {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgb(173, 0, 0);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: none;
+    opacity: 0.9;
+}
+
+#notification2 {
+    background-color: #cc0000;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 63%;
     text-align: center;
+    display: none;
 }
-.signup-card h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
+
+.hidden {
+    display: none;
 }
-.form-control {
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 0.75rem;
-}
-.btn-primary {
+
+/* css de navbar */
+
+#navbar {
+    position: fixed;
     width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
+    height: 60px;
+
+}
+
+.navbar-custom {
+    background-color: #0c0c0c;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 3px;
+}
+
+.navbar-custom .nav-link {
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ff7300;
+}
+
+.nav-link i {
+    color: white;
+}
+
+.nav-link:hover i {
+    color: #ff7300;
+}
+
+.dropdown-menu {
     border-radius: 5px;
-    background-color: #007bff;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    background-color: #2e3136;
     border: none;
 }
-.btn-primary:hover {
-    background-color: #0056b3;
+
+.dropdown-item {
+    color: white;
+    transition: background-color 0.3s;
 }
 
+.dropdown-item:hover {
+    background-color: #ff7300;
+    color: black;
+}
+
+/* css de SignUp */
+.signup-card {
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+}
+
+.registration-form {
+    background-color: #ffffff;
+    padding: 0.5%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 1%;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #0a0a0a;
+    font-size: 16px;
+    outline: none;
+}
+
+.input-container label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 16px;
+    transition: 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+
+input:focus {
+    border-color: #ced4da !important;
+    box-shadow: none !important;
+}
+
+
+.input-container input:focus+label,
+.input-container input:not(:placeholder-shown)+label {
+    top: -4px;
+    font-size: 12px;
+    color: #888;
+    background-color: #fff;
+    margin: 1%;
+    padding: 0% 5% 0% 5%;
+}
+
+.input-container:has(input:focus) {
+    border-color: #ff9900;
+}
+
+#suggestions {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 10;
+    width: 93%;
+    background-color: white;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+#id_address {
+    position: relative;
+}
+
+.bi-eye {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.bi-eye-slash {
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.btn-primary {
+    background-color: #ff7300;
+    border: none;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #ff8c2d;
+    box-shadow: 0 0 10px rgba(255, 81, 0, 0.5);
+}
+
+.btn-primary:active {
+    background-color: #ca5b00 !important;
+    transform: scale(0.95);
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    background-color: #ff933b !important;
+}
+
+/* css de login */
+.login-card {
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+}
+
+.linkA {
+    color: #292929;
+    text-decoration: none;
+}
+
+.linkA:hover {
+    color: #ff7300;
+    text-decoration: none;
+}
+
+.linkP {
+    color: #585858;
+    text-decoration: none;
+}
+
+.linkP:hover {
+    color: #ff7300;
+    text-decoration: none;
+}
