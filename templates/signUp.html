@@ -1,9 +1,10 @@
-{% extends 'index.html' %} 
-{% load static %} 
-{% block title %} SIGN UP {%endblock %} 
-{% block content %}
+{% extends 'index.html' %} {% load static %} {% block title %} SIGN UP
+{%endblock %} {% block content %}
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div
+  class="container d-flex justify-content-center align-items-center vh-100"
+  id="registration"
+>
   <form method="POST" class="registration-form" novalidate>
     {% csrf_token %}
 
@@ -112,15 +113,17 @@
 
       <!-- Botón de registro -->
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary" id="botonRegistro" disabled>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          id="botonRegistro"
+          disabled
+        >
           Registrar
         </button>
       </div>
 
-      <p style="color: #585858; margin-top: 30px">
-        ¿Ya tienes cuenta?
-        
-      </p>
+      <p style="color: #585858; margin-top: 30px">¿Ya tienes cuenta?</p>
       <a class="linkA" href="{% url 'user:login' %}">Iniciar sesión</a>
     </div>
   </form>
