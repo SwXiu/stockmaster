@@ -7,3 +7,5 @@ class HomePage(View):
 
         }
         return render(request, 'index.html', context)
+
+

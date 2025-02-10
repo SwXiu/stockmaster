@@ -1,0 +1,70 @@
+{% extends 'index.html' %} 
+{% load static %} 
+{% block title %} LOGIN {% endblock%}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="d-flex justify-content-center align-items-center" style=" flex-flow: row wrap;">
+    <form method="POST" class="registration-form" novalidate>
+      {% csrf_token %}
+      
+      <div class="login-card">
+        <h2 class="text-center mb-4 fw-bold">Iniciar sesión</h2>
+  
+        <!-- Correo electrónico -->
+        <div class="form-control mb-3 input-container">
+          <input
+            type="email"
+            name="email1"
+            id="id_email1"
+            class="form-control"
+            placeholder=""
+            required
+          />
+          <label for="id_email1">Correo electrónico</label>
+        </div>
+  
+        <!-- Contenedor de la contraseña -->
+        <div class="d-flex flex-column">
+          <div class="form-control mb-2 input-container position-relative">
+            <input
+              type="password"
+              name="password"
+              id="id_password"
+              class="form-control"
+              placeholder=""
+              required
+            />
+            <label for="id_password">Contraseña</label>
+            <span class="position-absolute top-50 end-0 translate-middle-y me-3">
+              <i class="bi bi-eye-slash" id="toggle-password" style="cursor: pointer;"></i>
+            </span>
+          </div>
+  
+          <!-- Forgot password alineado a la derecha -->
+          <div class="d-flex justify-content-end mt-1">
+            <a class="linkP" href="#!" style="padding-bottom: 20px">¿Has olvidado la contraseña?</a>
+          </div>
+        </div>
+  
+        <!-- Botón de iniciar sesión -->
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary" id="botonIniciarSesion" disabled>Iniciar sesión</button>
+        </div>
+  
+        <p style="color: #585858; margin-top: 20px">
+          ¿No tienes cuenta?
+          
+        </p>
+        <a class="linkA" href="{% url 'user:signup' %}" >Regístrate aquí</a>
+      </div>
+        <!-- Notificación debajo del formulario -->
+      
+    </form>
+    <div id="notification2" class="notification hidden"></div>
+  </div>
+</div>
+
+<script src="{% static 'js/scriptLogin.js' %}"></script>
+
+{% endblock %}
