@@ -6,6 +6,6 @@ class HomePage(View):
         context={
 
         }
-        return render(request, 'index.html', context)
+        return render(request, 'home.html', context)
 
 
