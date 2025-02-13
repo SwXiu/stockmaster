@@ -1,42 +1,45 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Almacen
 from .forms import AlmacenForm
 
+@login_required
 def WarehouseList(request):
-    almacenes = Almacen.objects.all()
-    return render(request, 'admin.html')
+    warehouses = Almacen.objects.all()
+    return #render(request, 'admin.html')
 
+@login_required
 def WarehouseDetail(request, pk):
-    almacen = get_object_or_404(Almacen, pk=pk)
-    return render(request, 'admin.html')
+    warehouse = get_object_or_404(Almacen, pk=pk)
+    return #render(request, 'admin.html')
 
-# Crear un nuevo almacén
+@login_required
 def WarehouseCreate(request):
     if request.method == 'POST':
         form = AlmacenForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin.html')
+            return #redirect('admin.html')
     else:
         form = AlmacenForm()
-    return render(request, 'Warehouseform.html')
+    return #render(request, 'admin.html')
 
-# Actualizar un almacén existente
+@login_required
 def WarehouseUpdate(request, pk):
     almacen = get_object_or_404(Almacen, pk=pk)
-    if request.method == 'POST':
-        form = AlmacenForm(request.POST, instance=almacen)
+    if request.method == 'PUT':
+        form = AlmacenForm(request.PUT, instance=almacen)
         if form.is_valid():
             form.save()
-            return redirect('almacen-list')
+            return #redirect('admin.html')
     else:
         form = AlmacenForm(instance=almacen)
-    return render(request, 'Warehouseform.html')
+    return #render(request, 'admin.html')
 
-# Eliminar un almacén
+@login_required
 def WarehouseDelete(request, pk):
     almacen = get_object_or_404(Almacen, pk=pk)
-    if request.method == 'POST':
+    if request.method == 'DELETE':
         almacen.delete()
-        return redirect('almacen-list')
-    return render(request, 'Warehouseconfirm_delete.html')
+        return #redirect('admin.html')
+    return #render(request, 'admin.html')
