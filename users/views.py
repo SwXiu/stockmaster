@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
-from users.backend import EmailBackend
 
 CustomUser = get_user_model()
 
