@@ -1,7 +1,7 @@
 /* css de pagina principal */
 body {
     margin-bottom: 1%;
-    background-image: url('../img/fondo-web.jpeg    ');
+    background-image: url('../img/fondo-web.jpeg');
 }
 
 #notification1 {
@@ -15,6 +15,10 @@ body {
     font-size: 14px;
     display: none;
     opacity: 0.9;
+}
+
+.pac-container {
+    z-index: 10000 !important;  /* Bootstrap modals tienen z-index 1050 */
 }
 
 #notification2 {
@@ -98,6 +102,11 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+.createWarehouse-form {
+    background-color: #ffffff;
+    align-items: center;
+}
+
 .input-container {
     position: relative;
     margin-bottom: 1%;
@@ -126,12 +135,17 @@ body {
     pointer-events: none;
 }
 
-
 input:focus {
     border-color: #ced4da !important;
     box-shadow: none !important;
 }
-
+.place-picker-container {
+    border-radius: 5px;
+}
+.place-picker-container:focus-within gmpx-place-picker {
+    background-color: #ff8000;
+    border-radius: 5px;
+}
 
 .input-container input:focus+label,
 .input-container input:not(:placeholder-shown)+label {
@@ -402,10 +416,9 @@ td {
 }
 
 .modal-header {
-    background-color: #007bff;
+    background-color: #ff4800;
     color: white;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-radius: 8px 8px 0 0;
 }
 
 .modal-title {

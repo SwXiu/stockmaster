@@ -4,4 +4,4 @@ from .models import Almacen
 class AlmacenForm(forms.ModelForm):
     class Meta:
         model = Almacen
-        fields = ['nombre', 'direccion', 'capacidad', 'capacidadDisponible', 'latitud', 'longitud']
+        fields = ['nombre', 'direccion', 'capacidad', 'latitud', 'longitud']

@@ -1,0 +1,50 @@
+<div class="modal fade" id="warehouseModal" tabindex="-1" aria-labelledby="warehouseModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="warehouseModalLabel">Añadir Almacén</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" style="display: flex; justify-content: center;" class="createWarehouse-form" novalidate>
+          {% csrf_token %}
+          <div class="signup-card">
+            <!-- Nombre del almacén -->
+            <div class="form-control mb-3 input-container">
+              <input type="text" name="warehouse_name" id="id_warehouse_name" class="form-control" placeholder="" required />
+              <label for="id_warehouse_name">Nombre del almacén</label>
+            </div>
+
+            <!-- Dirección del almacén con autocompletado de Google Maps -->
+            <gmpx-api-loader key="AIzaSyBEym2YFxUvAx5LCV1MBn3HjsLhG-M-LKE" solution-channel="GMP_GE_mapsandplacesautocomplete_v2"></gmpx-api-loader>
+
+            <div slot="control-block-start-inline-start" class="place-picker-container mb-4">
+              <label for="id_warehouse_name">Dirección</label>
+              <gmpx-place-picker style="width: 100%; border-color: #ced4da;" id="directions" placeholder="Enter an address"></gmpx-place-picker>
+            </div>
+
+            <!-- Capacidad del almacén -->
+            <div class="form-control mb-3 input-container">
+              <input type="number" name="warehouse_capacity" id="id_warehouse_capacity" class="form-control" placeholder="" required />
+              <label for="id_warehouse_capacity">Capacidad(m³)</label>
+            </div>
+
+            <!-- Botón de registro -->
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <button type="submit" class="btn btn-success form-control" id="botonAdd" disabled>Añadir Almacén</button>
+              </div>
+              <div class="col-md-6">
+                <button type="button" data-bs-dismiss="modal" class="btn btn-danger form-control">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- En admin.html -->
+{% block extrajs %}
+
+{% endblock %}
