@@ -1,12 +1,7 @@
 /* css de pagina principal */
-
-
 body {
-    
     margin-bottom: 1%;
     background-image: url('../img/fondo-web.jpeg    ');
-    
-
 }
 
 #notification1 {
@@ -276,6 +271,7 @@ input:focus {
   
   .btn-decorativo {
     background-color: #ff7300;
+    text-decoration: none;
     color: white; 
     border: none; 
     padding: 15px 30px;
