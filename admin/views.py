@@ -11,3 +11,4 @@ class AdminInterface(LoginRequiredMixin, View):
 
         }
         return render(request, 'admin.html')
+

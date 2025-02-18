@@ -1,12 +1,7 @@
 /* css de pagina principal */
-
-
 body {
-
     margin-bottom: 1%;
     background-image: url('../img/fondo-web.jpeg    ');
-
-
 }
 
 #notification1 {
@@ -276,8 +271,9 @@ input:focus {
 
 .btn-decorativo {
     background-color: #ff7300;
-    color: white;
-    border: none;
+    text-decoration: none;
+    color: white; 
+    border: none; 
     padding: 15px 30px;
     font-size: 1.2rem;
     font-weight: bold;
@@ -418,4 +414,32 @@ td {
 
 .modal-body {
     background-color: #f8f9fa;
+}
+
+/* css de login */
+.login-card {
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+}
+
+.linkA {
+    color: #292929;
+    text-decoration: none;
+}
+
+.linkA:hover {
+    color: #ff7300;
+    text-decoration: none;
+}
+
+.linkP {
+    color: #585858;
+    text-decoration: none;
+}
+
+.linkP:hover {
+    color: #ff7300;
+    text-decoration: none;
 }
