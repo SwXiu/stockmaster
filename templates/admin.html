@@ -4,7 +4,42 @@
   ADMIN
 {% endblock %}
 {% block content %}
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
+  <script>
+    ;((g) => {
+      var h,
+        a,
+        k,
+        p = 'The Google Maps JavaScript API',
+        c = 'google',
+        l = 'importLibrary',
+        q = '__ib__',
+        m = document,
+        b = window
+      b = b[c] || (b[c] = {})
+      var d = b.maps || (b.maps = {}),
+        r = new Set(),
+        e = new URLSearchParams(),
+        u = () =>
+          h ||
+          (h = new Promise(async (f, n) => {
+            await (a = m.createElement('script'))
+            e.set('libraries', [...r] + '')
+            for (k in g)
+              e.set(
+                k.replace(/[A-Z]/g, (t) => '_' + t[0].toLowerCase()),
+                g[k]
+              )
+            e.set('callback', c + '.maps.' + q)
+            a.src = `https://maps.${c}apis.com/maps/api/js?` + e
+            d[q] = f
+            a.onerror = () => (h = n(Error(p + ' could not load.')))
+            a.nonce = m.querySelector('script[nonce]')?.nonce || ''
+            m.head.append(a)
+          }))
+      d[l] ? console.warn(p + ' only loads once. Ignoring:', g) : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)))
+    })({ key: 'AIzaSyBEym2YFxUvAx5LCV1MBn3HjsLhG-M-LKE', v: 'beta' })
+  </script>
+  <!-- Load Google Maps Platform with API key -->
   <div class="container" style="padding-top: 6%;">
     <div class="row width-100">
       <div class="col-md-3">
@@ -42,70 +77,79 @@
 
 {% block extrajs %}
   <script type="text/javascript">
+    let placeAutocomplete
     const $ = jQuery.noConflict()
     function abrirModal(url) {
       // Cargar el modal desde otro archivo HTML en el contenedor
       $('#modalContainer').load(url, function () {
         // Mostrar el modal después de cargar el contenido
         $('#warehouseModal').modal('show')
+        setTimeout(() => {
+          if (!placeAutocomplete) {
+            initAutocomplete()
+          }
+        }, 100) // Esperar a que el modal sea visible
       })
     }
+        
+    async function initAutocomplete() {
+      await google.maps.importLibrary('places')
     
-    let selectedPlace = null
-    let placePickerInitialized = false
+      placeAutocomplete = new google.maps.places.PlaceAutocompleteElement()
+      const container = document.getElementById('autocomplete-container')
+    
+      if (container) {
+        container.innerHTML = '' // Limpiar antes de agregar
+        container.appendChild(placeAutocomplete)
+      } else {
+        console.error("No se encontró el div con id 'autocomplete-container'")
+        return
+      }
+    
+      // Mostrar información del lugar seleccionado
+      const selectedPlaceTitle = document.getElementById('selectedPlaceTitle')
+      const selectedPlaceInfo = document.getElementById('selectedPlaceInfo')
+    
+      placeAutocomplete.addEventListener('gmp-placeselect', async ({ place }) => {
+        await place.fetchFields({
+          fields: ['displayName', 'formattedAddress', 'location']
+        })
+    
+        selectedPlaceTitle.textContent = 'Selected Place:'
+        selectedPlaceInfo.textContent = JSON.stringify(place.toJSON(), null, 2)
+      })
+    }
     
     function initValidation() {
       const warehouseNameInput = document.getElementById('id_warehouse_name')
       const warehouseCapacityInput = document.getElementById('id_warehouse_capacity')
-      const placePicker = document.getElementById('directions') // Asegúrate de que el ID coincida
+      const placePicker = document.getElementById('place-picker') // Asegúrate de que el ID coincida
       const submitButton = document.getElementById('botonAdd')
     
       // Función de validación actualizada usando selectedPlace
       const checkFormValidity = () => {
         const nameValid = warehouseNameInput.value.trim() !== ''
         const capacityValid = Number(warehouseCapacityInput.value) > 0
-        const addressValid = selectedPlace !== null // Usamos la variable global
-        // Puedes opcionalmente extraer latitud y longitud si existen:
-        const lat = selectedPlace && selectedPlace.geometry && typeof selectedPlace.geometry.location.lat === 'function' ? selectedPlace.geometry.location.lat() : undefined
-        const lng = selectedPlace && selectedPlace.geometry && typeof selectedPlace.geometry.location.lng === 'function' ? selectedPlace.geometry.location.lng() : undefined
+        const addressValid = placePicker !== null // Usamos la variable global
     
         console.log('Validación:', {
           nameValid,
           capacityValid,
-          addressValid,
-          lat,
-          lng,
-          selectedPlace
+          addressValid
         })
     
         submitButton.disabled = !(nameValid && capacityValid && addressValid)
       }
     
-      // Configuración para el gmpx-place-picker
-      const setupPlacePicker = () => {
-        if (!placePickerInitialized && placePicker) {
-          placePicker.addEventListener('gmpx-placechange', (event) => {
-            // event.detail contiene la información del lugar
-            selectedPlace = event.detail
-            console.log('Lugar seleccionado:', selectedPlace)
-            checkFormValidity()
-          })
-          placePickerInitialized = true
-        }
-      }
-    
-      if (placePicker && submitButton) {
-        setupPlacePicker()
-        warehouseNameInput.addEventListener('input', checkFormValidity)
-        warehouseCapacityInput.addEventListener('input', checkFormValidity)
-        checkFormValidity()
-      }
+      warehouseNameInput.addEventListener('input', checkFormValidity)
+      warehouseCapacityInput.addEventListener('input', checkFormValidity)
+      checkFormValidity()
     }
     
     // Inicializar la validación al abrir el modal (asegúrate de que se llame en el momento adecuado)
     $(document).on('shown.bs.modal', '#warehouseModal', function () {
       setTimeout(() => {
-        initValidation()
+      initValidation()
       }, 2000) // Asegura que GMaps y el componente se hayan cargado
     })
   </script>
