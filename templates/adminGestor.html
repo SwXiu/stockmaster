@@ -1,0 +1,116 @@
+{% extends 'index.html' %} 
+{% load static %} 
+{% block title %} ADMINISTRADOR {% endblock %}
+{% block content %}
+
+<div class="container mt-5  " style="margin-top: 10%;">
+  <!-- Selector de interfaz -->
+  <div class="row">
+    <div class="col-md-3">
+      <select id="interfaceSelector" class="form-control">
+        <option value="warehouseList">Lista Almacenes</option>
+        <option value="kardexTotal">Kardex Total</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Lista de Almacenes -->
+  <div id="warehouseList" class="interface">
+    <div class="row">
+      {% for almacen in almacenes %}
+      <div class="col-md-4">
+        <div class="warehouse-card" data-id="{{ almacen.id }}">
+          <h5>{{ almacen.nombre }}</h5>
+          <p>
+            Stock Disponible: {{ almacen.stock_actual }} / {{ almacen.capacidad_maxima }}
+          </p>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              style="width: {{ almacen.porcentaje_lleno }}%"
+              aria-valuenow="{{ almacen.porcentaje_lleno }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Kardex Total -->
+  <div id="kardexTotal" class="interface" style="display: none">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Producto</th>
+          <th>Stock</th>
+          <th>Volumen</th>
+          <th>Almacén</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in kardex %}
+        <tr>
+          <td>{{ item.cliente }}</td>
+          <td>{{ item.producto }}</td>
+          <td>{{ item.stock }}</td>
+          <td>{{ item.volumen }}</td>
+          <td>{{ item.almacen.nombre }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modales para cada almacén -->
+{% for almacen in almacenes %}
+<div
+  class="modal fade"
+  id="warehouseModal{{ almacen.id }}"
+  tabindex="-1"
+  aria-labelledby="modalLabel{{ almacen.id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel{{ almacen.id }}">
+          Detalles de {{ almacen.nombre }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Producto</th>
+              <th>Stock</th>
+              <th>Volumen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in almacen.detalles %}
+            <tr>
+              <td>{{ item.cliente }}</td>
+              <td>{{ item.producto }}</td>
+              <td>{{ item.stock }}</td>
+              <td>{{ item.volumen }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %} 
+{% block scripts %}
+<script src="{% static 'js/scriptAdminGestor.js' %}"></script>
+{% endblock %}
