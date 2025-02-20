@@ -445,13 +445,6 @@ td {
 }
 
 /*css de clien*/
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    height: 100vh;
-  }
 
   #products-section {
     margin: 0;
