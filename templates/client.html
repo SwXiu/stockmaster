@@ -1,6 +1,304 @@
-{% extends "index.html" %}
-{% block title %}CUSTOMER{% endblock %}
-
+{% extends "index.html" %} {% block title %}CUSTOMER{% endblock %} 
 {% block content %}
-<h1>CUSTOMER</h1>
+<title>Mapa Interactivo con Cartas</title>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+  }
+
+  #products-section {
+    margin: 0;
+    width: 30%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  #map-section {
+    width: 70%;
+    height: 100vh;
+  }
+
+  .product-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .product-card img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+
+  .product-card h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .product-card p {
+    margin: 5px 0 0;
+    color: #555;
+  }
+
+  .remove-product {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .remove-product:hover {
+    background: darkred;
+  }
+
+  #map {
+    height: 100%;
+    width: 100%;
+  }
+
+  #add-product-btn {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+
+  #add-product-btn:hover {
+    background: #0056b3;
+  }
+
+  /* MODAL */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-content h2 {
+    margin: 0 0 15px;
+  }
+
+  .modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .modal-buttons button {
+    flex: 1;
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .btn-cancel {
+    background: #ccc;
+  }
+
+  .btn-add {
+    background: #28a745;
+    color: white;
+  }
+
+  .btn-add:hover {
+    background: #218838;
+  }
+  #main-content {
+    display: flex;
+    height: calc(100vh - 60px); /* Resta la altura del navbar */
+    margin-top: 60px; /* Deja espacio debajo del navbar */
+    width: 100vw;
+  }
+</style>
+<div id="main-content">
+  <!-- Sección de Productos -->
+  <div id="products-section">
+    <button id="add-product-btn">Añadir Producto</button>
+    <div id="products-container">
+      <!-- Aquí se añadirán dinámicamente los productos -->
+    </div>
+  </div>
+
+  <!-- Sección del Mapa -->
+  <div id="map-section">
+    <div id="map"></div>
+  </div>
+
+  <!-- Modal para añadir productos -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2>Añadir Producto</h2>
+      <input type="text" id="product-name" placeholder="Nombre del producto" />
+      <input type="number" id="product-quantity" placeholder="Cantidad" />
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="btn-add" onclick="submitProduct()">Añadir</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const productsContainer = document.getElementById("products-container");
+      const addProductButton = document.getElementById("add-product-btn");
+      const modal = document.getElementById("modal");
+
+      // Inicializar el mapa
+      const map = L.map("map").setView([39.5, -3.7], 6);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+
+      // Definir las coordenadas de Madrid
+      const madridCoordinates = [40.4168, -3.7038];
+
+      const customIcon = L.icon({
+        iconUrl: "https://img.icons8.com/ios/50/000000/warehouse.png",
+        iconAnchor: [20, 40], // Ancla del icono, la base
+        popupAnchor: [0, -40], // Ajuste para la ventana emergente
+      });
+
+      // Crear el marcador para Madrid
+      const marker = L.marker(madridCoordinates).addTo(map);
+
+      // Crear la ventana emergente (popup) con el texto "Almacén"
+      marker
+        .bindPopup(
+          `
+                <div style="text-align: center;">
+                    <img src="https://img.icons8.com/ios/50/000000/warehouse.png" 
+                         alt="Icono de almacén" 
+                         style="width: 30px; height: 30px; margin-bottom: 10px;" />
+                    <b>Madrid</b>
+                </div>
+            `
+        )
+        .openPopup();
+
+      marker.on("click", function () {
+        // Centrar el mapa en la posición del marcador y hacer zoom
+        map.setView(marker.getLatLng(), 14); // 14 es el nivel de zoom
+      });
+
+      // Función para obtener imagen de la API
+      async function obtenerImagenProducto(nombreProducto) {
+        try {
+          const response = await fetch("https://fakestoreapi.com/products");
+          const data = await response.json();
+          const productoEncontrado = data.find((p) =>
+            p.title.toLowerCase().includes(nombreProducto.toLowerCase())
+          );
+          if (productoEncontrado && productoEncontrado.image) {
+            return productoEncontrado.image;
+          } else {
+            throw new Error("Imagen no encontrada");
+          }
+        } catch (error) {
+          console.error("Error obteniendo imagen:", error);
+          return "https://via.placeholder.com/50?text=Sin+Imagen"; // Imagen genérica
+        }
+      }
+
+      // Función para agregar producto
+      async function agregarProducto(nombre, cantidad) {
+        const imagenURL = await obtenerImagenProducto(nombre);
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-card");
+        productCard.innerHTML = `
+                    <img src="${imagenURL}" alt="${nombre}">
+                    <div>
+                        <h3>${nombre}</h3>
+                        <p>Cantidad: ${cantidad}</p>
+                    </div>
+                    <button class="remove-product">X</button>
+                `;
+        productCard
+          .querySelector(".remove-product")
+          .addEventListener("click", () => productCard.remove());
+        productsContainer.appendChild(productCard);
+      }
+
+      // Abrir modal solo cuando el usuario hace clic en el botón
+      addProductButton.addEventListener("click", function () {
+        modal.style.display = "flex"; // Abrir modal
+      });
+
+      // Cerrar modal
+      function closeModal() {
+        modal.style.display = "none"; // Cerrar modal
+      }
+
+      // Enviar producto
+      async function submitProduct() {
+        const name = document.getElementById("product-name").value;
+        const quantity = document.getElementById("product-quantity").value;
+        if (name && quantity) {
+          await agregarProducto(name, quantity);
+          closeModal(); // Cerrar modal después de agregar el producto
+        } else {
+          alert("Ingrese todos los datos.");
+        }
+      }
+
+      // Exponer funciones
+      window.closeModal = closeModal;
+      window.submitProduct = submitProduct;
+    });
+  </script>
+</div>
+
 {% endblock %}
