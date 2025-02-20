@@ -4,108 +4,82 @@
 
 {% block content %}
 
-    <div class="banner">
-      <div class="banner-image"></div>
-      <div class="banner-text">
-        StockMaster, organiza tu stock de manera eficiente e independiente
-      </div>
-    </div>
-    <div class="contenedor-centro">
-      <a href="{% url 'user:login' %}" class="btn-decorativo">Comenzar ya</a>
-    </div>
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-6 d-flex justify-content-center align-items-center">
-          <img
-            id="img-inicio"
-            src="{% static 'img/log.webp' %}"
-            alt="Imagen inicio"
-            class="img-fluid"
-          />
-        </div>
-
-        <div class="col-md-6" id="caracteristicas">
-          <h3>Gestión de Productos y Categorías</h3>
-          <h3>Control de Niveles de Stock y Alertas de Reposición</h3>
-          <h3>Generación de Informes y Análisis de Inventarios</h3>
-        </div>
-      </div>
+<div class="banner">
+  <div class="banner-image"></div>
+  <div class="banner-text">
+    StockMaster, organiza tu stock de manera eficiente e independiente
+  </div>
+</div>
+<div class="contenedor-centro">
+  <a href="{% url 'user:login' %}" class="btn-decorativo">Comenzar ya</a>
+</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+      <img id="img-inicio" src="{% static 'img/log.webp' %}" alt="Imagen inicio" class="img-fluid" />
     </div>
 
-    <div class="container mt-5">
-      <!-- Sección de Contactanos -->
-      <div class="row">
-        <div class="col-12 text-center">
-          <h2 id="titulo-contacto">Contáctanos</h2>
-          <h5>
-            Si tienes alguna duda o necesitas más información, no dudes en
-            ponerte en contacto con nosotros.
-          </h5>
-          <br />
-        </div>
-      </div>
-
-      <!-- Formulario de contacto -->
-      <div class="row">
-        <div class="col-md-6">
-          <h3 id="contacto">Formulario de Contacto</h3>
-          <form>
-            <div class="mb-3">
-              <label for="name" class="form-label">Nombre</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Tu nombre"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Correo electrónico</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="Tu correo electrónico"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">Mensaje</label>
-              <textarea
-                class="form-control"
-                id="message"
-                rows="1"
-                placeholder="Tu mensaje"
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </form>
-        </div>
-        <div class="col-md-6">
-          <h3>Dirección</h3>
-          <iframe
-            width="500"
-            height="340"
-            style="border: 0"
-            loading="lazy"
-            allowfullscreen
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAixGDtsciDuFN_V0pCIj9xvUb5_r8FgMs&q=CesurPlazaALiptica"
-          >
-          </iframe>
-        </div>
-      </div>
-
-      <!-- Sección de Footer -->
-      <div class="row mt-5">
-        <div class="col-12 text-center">
-          <footer>
-            <p>&copy; 2025 StockMaster | Todos los derechos reservados.</p>
-            <p>
-              <a href="privacy-policy.html">Política de privacidad</a> |
-              <a href="terms-of-service.html">Términos de servicio</a>
-            </p>
-          </footer>
-        </div>
-      </div>
+    <div class="col-md-6" id="caracteristicas">
+      <h3>Gestión de Productos y Categorías</h3>
+      <h3>Control de Niveles de Stock y Alertas de Reposición</h3>
+      <h3>Generación de Informes y Análisis de Inventarios</h3>
     </div>
+  </div>
+</div>
 
-    {% endblock %}
+<div class="container mt-5">
+  <!-- Sección de Contactanos -->
+  <div class="row">
+    <div class="col-12 text-center">
+      <h2 id="titulo-contacto">Contáctanos</h2>
+      <h5>
+        Si tienes alguna duda o necesitas más información, no dudes en
+        ponerte en contacto con nosotros.
+      </h5>
+      <br />
+    </div>
+  </div>
+
+  <!-- Formulario de contacto -->
+  <div class="row">
+    <div class="col-md-6">
+      <h3 id="contacto">Formulario de Contacto</h3>
+      <form>
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="name" placeholder="Tu nombre" />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" placeholder="Tu correo electrónico" />
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Mensaje</label>
+          <textarea class="form-control" id="message" rows="1" placeholder="Tu mensaje"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h3>Dirección</h3>
+      <iframe width="500" height="340" style="border: 0" loading="lazy" allowfullscreen
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAixGDtsciDuFN_V0pCIj9xvUb5_r8FgMs&q=CesurPlazaALiptica">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Sección de Footer -->
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <footer>
+        <p>&copy; 2025 StockMaster | Todos los derechos reservados.</p>
+        <p>
+          <a href="privacy-policy.html">Política de privacidad</a> |
+          <a href="terms-of-service.html">Términos de servicio</a>
+        </p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

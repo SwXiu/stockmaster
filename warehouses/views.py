@@ -18,11 +18,18 @@ def WarehouseCreate(request):
     if request.method == 'POST':
         form = AlmacenForm(request.POST)
         if form.is_valid():
-            form.save()
-            return #redirect('admin.html')
+            almacen = form.save(commit=False)
+            
+            # Asignar coordenadas desde el formulario
+            almacen.latitud = form.cleaned_data['latitud']
+            almacen.longitud = form.cleaned_data['longitud']
+            
+            almacen.save()
+            return redirect('adminV:adminInterface')
     else:
         form = AlmacenForm()
-    return #render(request, 'admin.html')
+    
+    return render(request, 'warehouseCreate.html', {'form': form})
 
 @login_required
 def WarehouseUpdate(request, pk):

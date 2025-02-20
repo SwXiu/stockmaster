@@ -1,5 +1,156 @@
-{% extends "index.html" %}
-{% block title %}ADMIN{% endblock %}
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+  ADMIN
+{% endblock %}
 {% block content %}
-<h1>ADMIN</h1> 
+  <script>
+    ;((g) => {
+      var h,
+        a,
+        k,
+        p = 'The Google Maps JavaScript API',
+        c = 'google',
+        l = 'importLibrary',
+        q = '__ib__',
+        m = document,
+        b = window
+      b = b[c] || (b[c] = {})
+      var d = b.maps || (b.maps = {}),
+        r = new Set(),
+        e = new URLSearchParams(),
+        u = () =>
+          h ||
+          (h = new Promise(async (f, n) => {
+            await (a = m.createElement('script'))
+            e.set('libraries', [...r] + '')
+            for (k in g)
+              e.set(
+                k.replace(/[A-Z]/g, (t) => '_' + t[0].toLowerCase()),
+                g[k]
+              )
+            e.set('callback', c + '.maps.' + q)
+            a.src = `https://maps.${c}apis.com/maps/api/js?` + e
+            d[q] = f
+            a.onerror = () => (h = n(Error(p + ' could not load.')))
+            a.nonce = m.querySelector('script[nonce]')?.nonce || ''
+            m.head.append(a)
+          }))
+      d[l] ? console.warn(p + ' only loads once. Ignoring:', g) : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)))
+    })({ key: 'AIzaSyBEym2YFxUvAx5LCV1MBn3HjsLhG-M-LKE', v: 'beta' })
+  </script>
+  <!-- Load Google Maps Platform with API key -->
+  <div class="container" style="padding-top: 6%;">
+    <div class="row width-100">
+      <div class="col-md-3">
+        <select id="interfaceSelector" class="form-control">
+          <option value="warehouseList">Lista Almacenes</option>
+          <option value="kardexTotal">Kardex Total</option>
+        </select>
+      </div>
+      <div class="col-md-3 ms-auto" style="display: flex; justify-content: flex-end;">
+        <button onclick="abrirModal('{% url 'adminV:warehouses:warehousesCreate' %}')" type="button" class="btn btn-primary" id="openModalButton">Registrar Almacén</button>
+      </div>
+    </div>
+
+    <!-- Contenedor donde el modal se cargará -->
+    <div id="modalContainer"></div>
+
+    <!-- Lista de Almacenes -->
+    <div id="warehouseList" class="interface">
+      <div class="row">
+        {% for almacen in almacenes %}
+          <div class="col-md-4">
+            <div class="warehouse-card" data-id="{{ almacen.id }}">
+              <h5>{{ almacen.nombre }}</h5>
+              <p>Stock Disponible: {{ almacen.capadiadOcupadaa }} / {{ almacen.capacidad }}</p>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ almacen.porcentaje_lleno|floatformat:2 }}%;" aria-valuenow="{{ almacen.porcentaje_lleno|floatformat:2 }}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extrajs %}
+  <script type="text/javascript">
+    let placeAutocomplete
+    const $ = jQuery.noConflict()
+    function abrirModal(url) {
+      // Cargar el modal desde otro archivo HTML en el contenedor
+      $('#modalContainer').load(url, function () {
+        // Mostrar el modal después de cargar el contenido
+        $('#warehouseModal').modal('show')
+        setTimeout(() => {
+          if (!placeAutocomplete) {
+            initAutocomplete()
+          }
+        }, 100) // Esperar a que el modal sea visible
+      })
+    }
+        
+    async function initAutocomplete() {
+      await google.maps.importLibrary('places')
+    
+      placeAutocomplete = new google.maps.places.PlaceAutocompleteElement()
+      const container = document.getElementById('autocomplete-container')
+    
+      if (container) {
+        container.innerHTML = '' // Limpiar antes de agregar
+        container.appendChild(placeAutocomplete)
+      } else {
+        console.error("No se encontró el div con id 'autocomplete-container'")
+        return
+      }
+    
+      // Mostrar información del lugar seleccionado
+      const selectedPlaceTitle = document.getElementById('selectedPlaceTitle')
+      const selectedPlaceInfo = document.getElementById('selectedPlaceInfo')
+    
+      placeAutocomplete.addEventListener('gmp-placeselect', async ({ place }) => {
+        await place.fetchFields({
+          fields: ['displayName', 'formattedAddress', 'location']
+        })
+    
+        selectedPlaceTitle.textContent = 'Selected Place:'
+        selectedPlaceInfo.textContent = JSON.stringify(place.toJSON(), null, 2)
+      })
+    }
+    
+    function initValidation() {
+      const warehouseNameInput = document.getElementById('id_warehouse_name')
+      const warehouseCapacityInput = document.getElementById('id_warehouse_capacity')
+      const placePicker = document.getElementById('place-picker') // Asegúrate de que el ID coincida
+      const submitButton = document.getElementById('botonAdd')
+    
+      // Función de validación actualizada usando selectedPlace
+      const checkFormValidity = () => {
+        const nameValid = warehouseNameInput.value.trim() !== ''
+        const capacityValid = Number(warehouseCapacityInput.value) > 0
+        const addressValid = placePicker !== null // Usamos la variable global
+    
+        console.log('Validación:', {
+          nameValid,
+          capacityValid,
+          addressValid
+        })
+    
+        submitButton.disabled = !(nameValid && capacityValid && addressValid)
+      }
+    
+      warehouseNameInput.addEventListener('input', checkFormValidity)
+      warehouseCapacityInput.addEventListener('input', checkFormValidity)
+      checkFormValidity()
+    }
+    
+    // Inicializar la validación al abrir el modal (asegúrate de que se llame en el momento adecuado)
+    $(document).on('shown.bs.modal', '#warehouseModal', function () {
+      setTimeout(() => {
+      initValidation()
+      }, 2000) // Asegura que GMaps y el componente se hayan cargado
+    })
+  </script>
 {% endblock %}
